@@ -14,6 +14,13 @@ include('config.php');
 	<link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
+	 img.cow {
+	     border-radius: 50%;
+	     display: block;
+	     margin-left: auto;
+	     margin-right: auto;
+	     margin-bottom: 1.5em;
+	 }
 	 div.gallery {
 	     border: 1px solid #ccc;
 	 }
@@ -66,7 +73,7 @@ include('config.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 	<div class="c">
-	    <h1><img style="vertical-align: middle; border-radius: 50%;" src="cow.png" alt="RAW Cow" width="100"> RAW Cow</h1>
+	    <img class="cow" src="cow.png" alt="RAW Cow" width="100">
 	    <hr>
 
 	    <?php
