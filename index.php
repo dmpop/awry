@@ -89,8 +89,8 @@ include('config.php');
 	    if (!file_exists($work_dir.'previews'))
 	    {
 		shell_exec('mkdir -p '.$work_dir.'previews/');
-		shell_exec('exiftool -b -PreviewImage -w .JPG -ext '.$file_ext.' -r '.$work_dir);
-		$files = glob($work_dir.'*.JPG');
+		shell_exec('exiv2 -e p2 '.$work_dir.$file_ext);
+		$files = glob($work_dir.'*.jpg');
 		foreach($files as $file)
 		{
 		    rename($file, $work_dir.'previews/'.basename($file));

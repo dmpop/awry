@@ -5,13 +5,13 @@ Simple PHP script to generate web photo gallery out of RAW files with zero effor
 ## Dependencies
 
 - PHP
-- ExifTool
+- Exiv2
 - Web server (Apache, Lighttpd, or similar)
 - Git (optional)
 
 ## Installation and Usage
 
-1. Make sure that your local machine or remote web server has PHP installed.
+1. Make sure that your local machine or remote web server has PHP and Exiv2 installed.
 2. Clone the project's repository using the `git clone https://gitlab.com/dmpop/raw-cow.git` command. Alternatively, download the latest source code using the appropriate button on the project's page.
 3. Open the _raw-cow/config.php_ file and change example values of the `$file_ext` variable.
 4. Put RAW files into _raw-cow/RAW_ directory.
