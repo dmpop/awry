@@ -112,7 +112,7 @@ include('config.php');
 	    <div class="clearfix"></div>
 	    <hr>
 	    <div style="padding:6px;">
-		<p>That's <a href="https://gitlab.com/dmpop/raw-cow" RAW Cow</a> for you!</p>
+		<p>That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!</p>
 	    </div>
 	</div>
     </body>

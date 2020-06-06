@@ -17,6 +17,10 @@ Simple PHP script to generate web photo gallery out of RAW files with zero effor
 4. Put RAW files into _raw-cow/RAW_ directory.
 5. To run RAW Cow locally, switch in the terminal to the _raw-cow_ directory,  run the `php -S 127.0.0.1:8000` command, and point the browser to the _127.0.0.1:8000_ address.
 
+The [Linux Photography](https://gumroad.com/l/linux-photography) book provides detailed information  on installing and using Natsukashii. Get your copy at [Google Play Store](https://play.google.com/store/books/details/Dmitri_Popov_Linux_Photography?id=cO70CwAAQBAJ) or [Gumroad](https://gumroad.com/l/linux-photography).
+
+<img src="https://i.imgur.com/wBgcfSk.jpg" title="Linux Photography book" width="200"/>
+
 ## Problems?
 
 Please report bugs and issues in the [Issues](https://gitlab.com/dmpop/raw-cow/issues) section.
