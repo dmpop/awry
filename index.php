@@ -77,6 +77,14 @@ include('config.php');
 	    <hr>
 
 	    <?php
+	    function extract_preview_jpeg($work_dir, $file_ext) {
+		shell_exec('exiv2 -e p2 '.$work_dir.$file_ext);
+		$files = glob($work_dir.'*.jpg');
+		foreach($files as $file)
+		{
+		    rename($file, $work_dir.'previews/'.basename($file));
+		}
+	    } 
 	    function is_dir_empty($dir) {
 		if (!is_readable($dir)) return NULL; 
 		return (count(scandir($dir)) == 3);
@@ -89,12 +97,7 @@ include('config.php');
 	    if (!file_exists($work_dir.'previews'))
 	    {
 		shell_exec('mkdir -p '.$work_dir.'previews/');
-		shell_exec('exiv2 -e p2 '.$work_dir.$file_ext);
-		$files = glob($work_dir.'*.jpg');
-		foreach($files as $file)
-		{
-		    rename($file, $work_dir.'previews/'.basename($file));
-		}
+		extract_preview_jpeg($work_dir, $file_ext);
 	    }
 
 	    define('IMAGEPATH', $work_dir.'previews/');
@@ -111,9 +114,18 @@ include('config.php');
 	    ?>
 	    <div class="clearfix"></div>
 	    <hr>
-	    <div style="padding:6px;">
-		<p>That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!</p>
-	    </div>
+	    <form method='POST' action=''>
+		<input class="btn primary"  type="submit" name="refresh" value="Refresh"> 
+	    </form>
+	    <?php
+	    if(isset($_POST["refresh"])) {
+		shell_exec('rm -rf '.$work_dir.'previews/');
+		shell_exec('mkdir -p '.$work_dir.'previews/');
+		extract_preview_jpeg($work_dir, $file_ext);
+		echo '<meta http-equiv="refresh" content="0">';
+	    }
+	    ?>
+	    <p>That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!</p>
 	</div>
     </body>
 </html>
