@@ -21,24 +21,24 @@ include('config.php');
 	     margin-right: auto;
 	     margin-bottom: 1.5em;
 	 }
+	 
 	 div.gallery {
 	     border: 1px solid #ccc;
 	 }
-
+	 
 	 div.gallery:hover {
 	     border: 1px solid #777;
 	 }
-
+	 
 	 div.gallery img {
 	     width: 100%;
 	     height: auto;
 	 }
-
 	 div.desc {
 	     padding: 5px;
 	     text-align: center;
 	 }
-
+	 
 	 * {
 	     box-sizing: border-box;
 	 }
@@ -77,12 +77,12 @@ include('config.php');
 	    <hr>
 
 	    <?php
-	    function extract_preview_jpeg($work_dir, $file_ext) {
+	    function extract_preview_jpeg($work_dir, $prev_dir, $file_ext) {
 		shell_exec('exiv2 -e p2 '.$work_dir.$file_ext);
 		$files = glob($work_dir.'*.jpg');
 		foreach($files as $file)
 		{
-		    rename($file, $work_dir.'previews/'.basename($file));
+		    rename($file, $work_dir.$prev_dir.basename($file));
 		}
 	    } 
 	    function is_dir_empty($dir) {
@@ -94,13 +94,13 @@ include('config.php');
 		echo '<img src="wtf-cow.jpg" alt="WTF Cow" width="600"><br>';
 		exit("No RAW files. WTF?");
 	    }
-	    if (!file_exists($work_dir.'previews'))
+	    if (!file_exists($work_dir.$prev_dir))
 	    {
-		shell_exec('mkdir -p '.$work_dir.'previews/');
-		extract_preview_jpeg($work_dir, $file_ext);
+		shell_exec('mkdir -p '.$work_dir.$prev_dir);
+		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
 	    }
 
-	    define('IMAGEPATH', $work_dir.'previews/');
+	    define('IMAGEPATH', $work_dir.$prev_dir);
 	    foreach(glob(IMAGEPATH.'*') as $filename){
 		echo '<div class="responsive">';
 		echo '<div class="gallery">';
@@ -119,9 +119,9 @@ include('config.php');
 	    </form>
 	    <?php
 	    if(isset($_POST["refresh"])) {
-		shell_exec('rm -rf '.$work_dir.'previews/');
-		shell_exec('mkdir -p '.$work_dir.'previews/');
-		extract_preview_jpeg($work_dir, $file_ext);
+		shell_exec('rm -rf '.$work_dir.$prev_dir);
+		shell_exec('mkdir -p '.$work_dir.$prev_dir);
+		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
 		echo '<meta http-equiv="refresh" content="0">';
 	    }
 	    ?>
