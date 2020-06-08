@@ -82,7 +82,7 @@ include('config.php');
 		$files = glob($work_dir.'*.jpg');
 		foreach($files as $file)
 		{
-		    rename($file, $work_dir.$prev_dir.basename($file));
+		    rename($file, $prev_dir.basename($file));
 		}
 	    } 
 	    function is_dir_empty($dir) {
@@ -94,13 +94,13 @@ include('config.php');
 		echo '<img src="wtf-cow.jpg" alt="WTF Cow" width="600"><br>';
 		exit("No RAW files. WTF?");
 	    }
-	    if (!file_exists($work_dir.$prev_dir))
+	    if (!file_exists($prev_dir))
 	    {
-		shell_exec('mkdir -p '.$work_dir.$prev_dir);
+		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
 	    }
 
-	    define('IMAGEPATH', $work_dir.$prev_dir);
+	    define('IMAGEPATH', $prev_dir);
 	    foreach(glob(IMAGEPATH.'*') as $filename){
 		echo '<div class="responsive">';
 		echo '<div class="gallery">';
@@ -115,17 +115,17 @@ include('config.php');
 	    <div class="clearfix"></div>
 	    <hr>
 	    <form method='POST' action=''>
-		<input class="btn primary"  type="submit" name="refresh" value="Refresh"> 
+		<input display: inline!important; class="btn primary"  type="submit" name="refresh" value="Refresh">
+		That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!
 	    </form>
 	    <?php
 	    if(isset($_POST["refresh"])) {
-		shell_exec('rm -rf '.$work_dir.$prev_dir);
-		shell_exec('mkdir -p '.$work_dir.$prev_dir);
+		shell_exec('rm -rf '.$prev_dir);
+		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
 		echo '<meta http-equiv="refresh" content="0">';
 	    }
 	    ?>
-	    <p>That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!</p>
 	</div>
     </body>
 </html>
