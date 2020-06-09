@@ -77,6 +77,7 @@ include('config.php');
 	    <hr>
 
 	    <?php
+	    // FUNCTIONS ---
 	    function extract_preview_jpeg($work_dir, $prev_dir, $file_ext) {
 		shell_exec('exiftool -b -PreviewImage -w .JPG -ext '.$file_ext.' -r '.$work_dir);
 		$files = glob($work_dir.'*.JPG');
@@ -89,15 +90,32 @@ include('config.php');
 		if (!is_readable($dir)) return NULL; 
 		return (count(scandir($dir)) == 3);
 	    }
+	    function copy_exif($work_dir, $file_ext, $prev_dir) {
+		$files = glob($work_dir.'*.'.$file_ext);
+		foreach($files as $file)
+		{
+		    shell_exec('exiftool -overwrite_original -TagsFromFile '.$work_dir.pathinfo($file, PATHINFO_FILENAME).'.'.$file_ext.' '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
+		    $exposuretime = shell_exec('exiftool -ExposureTime '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
+		    $aperture = shell_exec('exiftool -Aperture '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
+		    $iso = shell_exec('exiftool -Iso '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
+		    shell_exec('convert '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG -gravity SouthWest -annotate 0x0 -pointsize 15 -fill White -annotate 0 "Aperture: '.$aperture.'Exposure: '.$exposuretime.'ISO: '.$iso.'" '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
+		}
+	    }
+	    // --- FUNCTIONS
+	    
 	    if (is_dir_empty($work_dir))
 	    {
 		echo '<img src="wtf-cow.jpg" alt="WTF Cow" width="600"><br>';
 		exit("No RAW files. WTF?");
 	    }
+	    
 	    if (!file_exists($prev_dir))
 	    {
 		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
+		if ($enable_exif) {
+		    copy_exif($work_dir, $file_ext, $prev_dir);
+		}
 	    }
 
 	    define('IMAGEPATH', $prev_dir);
@@ -123,6 +141,9 @@ include('config.php');
 		shell_exec('rm -rf '.$prev_dir);
 		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
+		if ($enable_exif) {
+		    copy_exif($work_dir, $file_ext, $prev_dir);
+		}
 		echo '<meta http-equiv="refresh" content="0">';
 	    }
 	    ?>
