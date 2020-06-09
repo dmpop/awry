@@ -78,8 +78,8 @@ include('config.php');
 
 	    <?php
 	    function extract_preview_jpeg($work_dir, $prev_dir, $file_ext) {
-		shell_exec('exiv2 -e p2 '.$work_dir.$file_ext);
-		$files = glob($work_dir.'*.jpg');
+		shell_exec('exiftool -b -PreviewImage -w .JPG -ext '.$file_ext.' -r '.$work_dir);
+		$files = glob($work_dir.'*.JPG');
 		foreach($files as $file)
 		{
 		    rename($file, $prev_dir.basename($file));
