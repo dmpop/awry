@@ -90,15 +90,11 @@ include('config.php');
 		if (!is_readable($dir)) return NULL; 
 		return (count(scandir($dir)) == 3);
 	    }
-	    function copy_exif($work_dir, $file_ext, $prev_dir) {
-		$files = glob($work_dir.'*.'.$file_ext);
+	    function auto_level($prev_dir) {
+		$files = glob($prev_dir.'*.JPG');
 		foreach($files as $file)
 		{
-		    shell_exec('exiftool -overwrite_original -TagsFromFile '.$work_dir.pathinfo($file, PATHINFO_FILENAME).'.'.$file_ext.' '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
-		    $exposuretime = shell_exec('exiftool -ExposureTime '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
-		    $aperture = shell_exec('exiftool -Aperture '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
-		    $iso = shell_exec('exiftool -Iso '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
-		    shell_exec('convert '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG -gravity South -background Black -pointsize 25 -fill White -splice 0x50 -annotate +15+15 "Aperture:'.$aperture.', Exposure:'.$exposuretime.'s, ISO:'.$iso.'" '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
+		    shell_exec('mogrify -auto-level '.$prev_dir.basename($file));
 		}
 	    }
 	    // --- FUNCTIONS
@@ -113,8 +109,8 @@ include('config.php');
 	    {
 		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
-		if ($enable_exif) {
-		    copy_exif($work_dir, $file_ext, $prev_dir);
+		if ($enable_auto_level) {
+		    auto_level($prev_dir);
 		}
 	    }
 
@@ -141,8 +137,8 @@ include('config.php');
 		shell_exec('rm -rf '.$prev_dir);
 		shell_exec('mkdir -p '.$prev_dir);
 		extract_preview_jpeg($work_dir, $prev_dir, $file_ext);
-		if ($enable_exif) {
-		    copy_exif($work_dir, $file_ext, $prev_dir);
+		if ($enable_auto_level) {
+		    auto_level($prev_dir);
 		}
 		echo '<meta http-equiv="refresh" content="0">';
 	    }
