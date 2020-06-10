@@ -95,10 +95,10 @@ include('config.php');
 		foreach($files as $file)
 		{
 		    shell_exec('exiftool -overwrite_original -TagsFromFile '.$work_dir.pathinfo($file, PATHINFO_FILENAME).'.'.$file_ext.' '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
-		    $exposuretime = shell_exec('exiftool -ExposureTime '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
-		    $aperture = shell_exec('exiftool -Aperture '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
-		    $iso = shell_exec('exiftool -Iso '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2');
-		    shell_exec('convert '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG -gravity SouthWest -annotate 0x0 -pointsize 15 -fill White -annotate 0 "Aperture: '.$aperture.'Exposure: '.$exposuretime.'ISO: '.$iso.'" '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
+		    $exposuretime = shell_exec('exiftool -ExposureTime '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
+		    $aperture = shell_exec('exiftool -Aperture '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
+		    $iso = shell_exec('exiftool -Iso '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG | cut -d":" -f2 | tr -d "\n"');
+		    shell_exec('convert '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG -gravity South -background Black -pointsize 25 -fill White -splice 0x50 -annotate +15+15 "Aperture:'.$aperture.', Exposure:'.$exposuretime.'s, ISO:'.$iso.'" '.$prev_dir.pathinfo($file, PATHINFO_FILENAME).'.JPG');
 		}
 	    }
 	    // --- FUNCTIONS
@@ -119,7 +119,7 @@ include('config.php');
 	    }
 
 	    define('IMAGEPATH', $prev_dir);
-	    foreach(glob(IMAGEPATH.'*') as $filename){
+	    foreach(glob(IMAGEPATH.'*.JPG') as $filename){
 		echo '<div class="responsive">';
 		echo '<div class="gallery">';
 		echo '<a target="_blank" href="'.$filename.'" data-featherlight="image">';
