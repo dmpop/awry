@@ -13,13 +13,6 @@ include('config.php');
 	<link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
-	 img.cow {
-	     border-radius: 50%;
-	     display: block;
-	     margin-left: auto;
-	     margin-right: auto;
-	     margin-bottom: 1.5em;
-	 }
 	 div.gallery img {
 	     width:100%;
 	     height:9em;
@@ -59,7 +52,7 @@ include('config.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 	<div class="c">
-	    <img class="cow" src="cow.png" alt="RAW Cow" width="100">
+	    <h1>RAW Cow</h1>
 	    <hr>
 
 	    <?php
@@ -116,7 +109,6 @@ include('config.php');
 	    <hr>
 	    <form method='POST' action=''>
 		<input display: inline!important; class="btn primary"  type="submit" name="refresh" value="Refresh">
-		That's <a href="https://gitlab.com/dmpop/raw-cow"> RAW Cow</a> for you!
 	    </form>
 	    <?php
 	    if(isset($_POST["refresh"])) {
