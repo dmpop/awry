@@ -21,47 +21,34 @@ include('config.php');
 	     margin-right: auto;
 	     margin-bottom: 1.5em;
 	 }
-	 
-	 div.gallery {
-	     border: 1px solid #ccc;
-	 }
-	 
-	 div.gallery:hover {
-	     border: 1px solid #777;
-	 }
-	 
 	 div.gallery img {
-	     width: 100%;
-	     height: auto;
+	     width:100%;
+	     height:9em;
+	     object-fit:scale-down;
 	 }
 	 div.desc {
-	     padding: 5px;
+	     padding: 0.5em;
 	     text-align: center;
 	 }
-	 
 	 * {
 	     box-sizing: border-box;
 	 }
-
 	 .responsive {
 	     padding: 0 6px;
 	     float: left;
 	     width: 24.99999%;
 	 }
-
 	 @media only screen and (max-width: 800px) {
 	     .responsive {
 		 width: 49.99999%;
 		 margin: 6px 0;
 	     }
 	 }
-
 	 @media only screen and (max-width: 500px) {
 	     .responsive {
 		 width: 100%;
 	     }
 	 }
-
 	 .clearfix:after {
 	     content: "";
 	     display: table;
@@ -91,7 +78,7 @@ include('config.php');
 		echo '<div class="responsive">';
 		echo '<div class="gallery">';
 		echo '<a target="_blank" href="'.$filename.'" data-featherlight="image">';
-		echo '<img src="'.$filename.'" alt="'.$filename.'" width="600">';
+		echo '<img src="'.$filename.'" alt="'.$filename.'">';
 		echo '</a>';
 		echo '<div class="desc">'.basename($filename).'</div>';
 		echo '</div>';
