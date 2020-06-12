@@ -56,14 +56,10 @@ include('config.php');
 	    <hr>
 
 	    <?php
+	    
 	    // FUNCTIONS ---
 	    function extract_preview_jpeg($work_dir, $prev_dir) {
-		shell_exec('exiftool -b -PreviewImage -w .JPG -r '.$work_dir);
-		$files = glob($work_dir.'*.JPG');
-		foreach($files as $file)
-		{
-		    rename($file, $prev_dir.basename($file));
-		}
+		shell_exec('exiftool -b -PreviewImage -w '.$prev_dir.'%f.JPG -r '.$work_dir);
 	    } 
 	    function is_dir_empty($dir) {
 		if (!is_readable($dir)) return NULL; 
