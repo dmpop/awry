@@ -2,16 +2,17 @@
 error_reporting(E_ERROR);
 include('config.php');
 ?>
-<!DOCTYPE html>
-<html>
+<html lang="en" data-theme="<?php echo $theme ?>">
+<!-- Author: Dmitri Popov, dmpop@linux.com
+         License: GPLv3 https://www.gnu.org/licenses/gpl-3.0.txt -->
 
 <head>
 	<meta charset="utf-8">
 	<title>RAW Cow</title>
-	<link rel="icon" href="cow.png">
-	<link rel="stylesheet" href="css/lit.css">
+	<link rel="shortcut icon" href="favicon.png" />
+	<link rel="stylesheet" href="css/classless.css">
+	<link rel="stylesheet" href="css/themes.css">
 	<link href="css/featherlight.min.css" type="text/css" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 		div.gallery img {
@@ -21,7 +22,7 @@ include('config.php');
 		}
 
 		div.desc {
-			padding: 0.5em;
+			padding: 0.1em;
 			text-align: center;
 		}
 
@@ -59,8 +60,11 @@ include('config.php');
 <body>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-	<div class="c">
-		<h1>RAW Cow</h1>
+	<div class="card">
+		<h1 class="text-center" style="margin-top: 0em;">RAW Cow</h1>
+		<form class="text-center" style="margin-top: 1em;" method='POST' action=''>
+		<button type="submit" name="refresh">Refresh</button>
+		</form>
 		<hr>
 
 		<?php
@@ -98,40 +102,35 @@ include('config.php');
 		}
 
 		define('IMAGEPATH', $prev_dir);
-		foreach (glob(IMAGEPATH . '*.JPG') as $filename) {
+		foreach (glob(IMAGEPATH . "*.$ext") as $filename) {
 			echo '<div class="responsive">';
 			echo '<div class="gallery">';
 			echo '<a target="_blank" href="' . $filename . '" data-featherlight="image">';
 			echo '<img src="' . $filename . '" alt="' . $filename . '">';
 			echo '</a>';
-			echo '<div class="desc">' . basename($filename). "</div>";
+			echo '<div class="desc">' . basename($filename) . "</div>";
 			echo '</div>';
 			echo '</div>';
 		}
-		echo "<form action='process.php' method='post'>";
+		echo "<form style='margin-top: 1.5em;' action='process.php' method='POST'>";
 		echo "<select name='img'>";
 		$files = glob("JPG/*");
-			foreach ($files as $file) {
-				$img = basename($file);
-				echo "<option value='$img'>$img</option>";
-			}
-			echo "</select>";
+		foreach ($files as $file) {
+			$img = basename($file);
+			echo "<option value='$img'>$img</option>";
+		}
+		echo "</select>";
 		echo "<select style='margin-left:0.5em;' name='lut'>";
-		$files = glob($lut_dir."*");
-			foreach ($files as $file) {
-				$lut_name = basename($file);
-				$lut = basename($file, ".png");
-				echo "<option value='$lut_name'>$lut</option>";
-			}
-			echo "</select>";
-			echo "<input class='btn' style='margin-left:0.5em;' type='submit' value='Process' name='submit'>";
-			echo "</form>";
+		$files = glob($lut_dir . "*");
+		foreach ($files as $file) {
+			$lut_name = basename($file);
+			$lut = basename($file, ".png");
+			echo "<option value='$lut_name'>$lut</option>";
+		}
+		echo "</select>";
+		echo '<button type="submit" name="process">Process</button>';
+		echo "</form>";
 		?>
-		<div class="clearfix"></div>
-		<hr>
-		<form method='POST' action=''>
-			<input display: inline!important; class="btn primary" type="submit" name="refresh" value="Refresh">
-		</form>
 		<?php
 		if (isset($_POST["refresh"])) {
 			shell_exec('rm -rf ' . $prev_dir);
@@ -143,6 +142,7 @@ include('config.php');
 			echo '<meta http-equiv="refresh" content="0">';
 		}
 		?>
+		<div class="text-center"><?php echo $footer; ?></div>
 	</div>
 </body>
 

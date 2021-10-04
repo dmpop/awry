@@ -3,8 +3,7 @@ error_reporting(E_ERROR);
 include('config.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<?php echo $theme ?>">
 <!-- Author: Dmitri Popov, dmpop@linux.com
 	 License: GPLv3 https://www.gnu.org/licenses/gpl-3.0.txt -->
 
@@ -12,25 +11,24 @@ include('config.php');
 	<meta charset="utf-8">
 	<title>RAW Cow</title>
 	<link rel="shortcut icon" href="favicon.png" />
-	<link rel="stylesheet" href="css/lit.css">
-	<link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
+	<link rel="stylesheet" href="css/classless.css">
+	<link rel="stylesheet" href="css/themes.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 		img {
 			border-radius: 1em;
 			max-width: 100%;
-			display: block;
 			align-self: center;
 		}
 	</style>
 </head>
 
 <body>
-	<div class="c">
-		<h1>RAW Cow</h1>
+	<div class="card text-center">
+		<h1 style="margin-top: 0em;">RAW Cow</h1>
 		<hr style="margin-bottom:3em;">
 		<?php
-		if (isset($_POST["submit"])) {
+		if (isset($_POST["process"])) {
 			$lut = $_POST['lut'];
 			$img = $_POST['img'];
 			if (!file_exists($result_dir)) {
@@ -43,8 +41,10 @@ include('config.php');
 			echo '<a download="' . $result_dir . $img . '" href="' . $result_dir . $img . '" title="Click to download the file"><img alt="Click to download the file" src="' . $result_dir . $img . '"></a>';
 		}
 		?>
-	    <hr style="margin-top:3em; margin-bottom:3em;">
-		<p><a class="btn" href="index.php">Back</a></p>
+		<div>
+			<button style="margin-top: 1.5em;" onclick="location.href='index.php'">Back</button>
+		</div>
+		<p><?php echo $footer; ?></p>
 	</div>
 </body>
 
