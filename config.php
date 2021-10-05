@@ -1,18 +1,16 @@
 <?php
-// JPEG file extension
-$ext ="JPG";
 // Directory containing RAW files
-$work_dir = "RAW/";
+$raw_dir = "RAW/";
 // Directory for JPEG preview files
-$prev_dir = "JPG/";
+$jpg_dir = "JPG/";
 // Directory with Hald LUT files
 $lut_dir = "LUTS/";
 // Directory for processed images
 $result_dir = "PROCESSED/";
-// Enable auto-level
+// Enable automatic level adjustment
 $enable_auto_level = false;
 // Theme
 $theme = "dark";
 // Footer
-$footer = "I really 🧡 <a href='https://www.paypal.com/paypalme/dmpop'>coffee</a>";
+$footer = "Read <a href='https://gumroad.com/l/linux-photography'>Linux Photography</a> book";
 ?>

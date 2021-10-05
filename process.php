@@ -34,7 +34,7 @@ include('config.php');
 			if (!file_exists($result_dir)) {
 				mkdir($result_dir, 0777, true);
 			}
-			$imagick = new \Imagick($prev_dir . $img);
+			$imagick = new \Imagick($jpg_dir . $img);
 			$imagickPalette = new \Imagick(realpath($lut_dir . $lut));
 			$imagick->haldClutImage($imagickPalette);
 			$imagick->writeImage($result_dir . $img);
