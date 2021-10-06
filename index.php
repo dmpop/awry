@@ -67,88 +67,91 @@ include('config.php');
 		</form>
 		<div class="text-center">
 			<?php
-			echo "<form style='margin-top: .5em;' action='process.php' method='POST'>";
-			echo "<select name='img'>";
-			$files = glob("$jpg_dir/*");
-			foreach ($files as $file) {
-				$img = basename($file);
-				echo "<option value='$img'>$img</option>";
+
+			// FUNCTIONS ---
+			function extract_preview_jpeg($raw_dir, $jpg_dir)
+			{
+				shell_exec('exiftool -b -PreviewImage -w ' . $jpg_dir . '%f.JPG -r ' . $raw_dir);
 			}
-			echo "</select>";
-			echo "<select style='margin-left:0.5em;' name='lut'>";
-			$files = glob($lut_dir . "*");
-			foreach ($files as $file) {
-				$lut_name = basename($file);
-				$lut = basename($file, ".png");
-				echo "<option value='$lut_name'>$lut</option>";
+			function is_dir_empty($dir)
+			{
+				if (!is_readable($dir)) return NULL;
+				return (count(scandir($dir)) == 2);
 			}
-			echo "</select>";
-			echo '<button type="submit" name="process">Process</button>';
-			echo "</form>";
+			function auto_level($jpg_dir)
+			{
+				$files = glob($jpg_dir . "*.JPG");
+				foreach ($files as $file) {
+					shell_exec('mogrify -auto-level ' . $jpg_dir . basename($file));
+				}
+			}
+			// --- FUNCTIONS
+
+			if (!is_dir_empty($jpg_dir)) {
+				echo "<form style='margin-top: .5em;' action='process.php' method='POST'>";
+				echo "<select name='img'>";
+				$files = glob("$jpg_dir/*");
+				foreach ($files as $file) {
+					$img = basename($file);
+					echo "<option value='$img'>$img</option>";
+				}
+				echo "</select>";
+				echo "<select style='margin-left:0.5em;' name='lut'>";
+				$files = glob($lut_dir . "*");
+				foreach ($files as $file) {
+					$lut_name = basename($file);
+					$lut = basename($file, ".png");
+					echo "<option value='$lut_name'>$lut</option>";
+				}
+				echo "</select>";
+				echo '<button type="submit" name="process">Process</button>';
+				echo "</form>";
+				echo '</div>';
+				echo '<hr>';
+			}
+
+			if (is_dir_empty($raw_dir)) {
+				echo '<div class="text-center">
+			<img src="wtf-cow.jpg" alt="WTF Cow" width="600">
+			<div style="margin-top: 1em;">No RAW files. WTF?</div>
+			</div>';
+			}
+
+			if (!file_exists($jpg_dir)) {
+				shell_exec('mkdir -p ' . $jpg_dir);
+			}
+
+			define('IMAGEPATH', $jpg_dir);
+			foreach (glob(IMAGEPATH . "*.JPG") as $filename) {
+				echo '<div class="responsive">';
+				echo '<div class="gallery">';
+				echo '<a target="_blank" href="' . $filename . '" data-featherlight="image">';
+				echo '<img src="' . $filename . '" alt="' . $filename . '">';
+				echo '</a>';
+				echo '<div class="desc">' . basename($filename) . "</div>";
+				echo '</div>';
+				echo '</div>';
+			}
+
+			if (isset($_POST["refresh"]) || is_dir_empty($jpg_dir)) {
+				shell_exec('rm -rf ' . $jpg_dir);
+				shell_exec('mkdir -p ' . $jpg_dir);
+				if ($darktable) {
+					shell_exec('for file in ' . $raw_dir . '*.*; do darktable-cli "$file" "${file%.*}.jpg"; done');
+					shell_exec('cd ' . $raw_dir . ' && for file in *.jpg; do mv "${file}" ../' . $jpg_dir . '"${file%.*}.JPG"; done');
+				} else {
+					extract_preview_jpeg($raw_dir, $jpg_dir);
+				}
+				if ($enable_auto_level) {
+					auto_level($jpg_dir);
+				}
+				echo '<meta http-equiv="refresh" content="0">';
+			}
 			?>
+			<div class="clearfix"></div>
+			<hr>
+			<div class="text-center"><?php echo $footer; ?></div>
 		</div>
-		<hr>
-
-		<?php
-
-		// FUNCTIONS ---
-		function extract_preview_jpeg($raw_dir, $jpg_dir)
-		{
-			shell_exec('exiftool -b -PreviewImage -w ' . $jpg_dir . '%f.JPG -r ' . $raw_dir);
-		}
-		function is_dir_empty($dir)
-		{
-			if (!is_readable($dir)) return NULL;
-			return (count(scandir($dir)) == 3);
-		}
-		function auto_level($jpg_dir)
-		{
-			$files = glob($jpg_dir . "*.JPG");
-			foreach ($files as $file) {
-				shell_exec('mogrify -auto-level ' . $jpg_dir . basename($file));
-			}
-		}
-		// --- FUNCTIONS
-
-		if (is_dir_empty($raw_dir)) {
-			echo '<img src="wtf-cow.jpg" alt="WTF Cow" width="600"><br>';
-			exit("No RAW files. WTF?");
-		}
-
-		if (!file_exists($jpg_dir)) {
-			shell_exec('mkdir -p ' . $jpg_dir);
-			extract_preview_jpeg($raw_dir, $jpg_dir);
-			if ($enable_auto_level) {
-				auto_level($jpg_dir);
-			}
-		}
-
-		define('IMAGEPATH', $jpg_dir);
-		foreach (glob(IMAGEPATH . "*.JPG") as $filename) {
-			echo '<div class="responsive">';
-			echo '<div class="gallery">';
-			echo '<a target="_blank" href="' . $filename . '" data-featherlight="image">';
-			echo '<img src="' . $filename . '" alt="' . $filename . '">';
-			echo '</a>';
-			echo '<div class="desc">' . basename($filename) . "</div>";
-			echo '</div>';
-			echo '</div>';
-		}
-
-		if (isset($_POST["refresh"])) {
-			shell_exec('rm -rf ' . $jpg_dir);
-			shell_exec('mkdir -p ' . $jpg_dir);
-			extract_preview_jpeg($raw_dir, $jpg_dir);
-			if ($enable_auto_level) {
-				auto_level($jpg_dir);
-			}
-			echo '<meta http-equiv="refresh" content="0">';
-		}
-		?>
-		<div class="clearfix"></div>
-		<hr>
-		<div class="text-center"><?php echo $footer; ?></div>
-	</div>
 </body>
 
 </html>

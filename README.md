@@ -1,11 +1,14 @@
 # RAW Cow
 
-Simple PHP-based web application for instant RAW processing and publishing. RAW Cow extracts JPEG images embedded into RAW files and published the extracted images as a responsive gallery. RAW Cow also makes it possible to apply Hald CLUT presets to the extracted JPEG files.
+Simple PHP-based web application for instant RAW processing and publishing. RAW Cow can extract JPEG images embedded into RAW files or it can use [darktable](https://www.darktable.org/) to convert RAW files to JPEG. The application publishes the resulting JPEG files as a responsive gallery. RAW Cow also makes it possible to apply Hald CLUT presets to the JPEG files.
+
+<img src="raw-cow.png" alt="RAW Cow">
 
 ## Dependencies
 
 - PHP
 - ExifTool
+- darktable (optional)
 - Web server (Apache, Lighttpd, or similar)
 - Git (optional)
 
@@ -31,15 +34,15 @@ If you've found a bug or have a suggestion for improvement, open an issue in the
 
 To add a new feature or fix issues yourself, follow the following steps.
 
-1. Fork the project's repository
-2. Create a feature branch using the `git checkout -b new-feature` command
-3. Add your new feature or fix bugs and run the `git commit -am 'Add a new feature'` command to commit changes
-4. Push changes using the `git push origin new-feature` command
-5. Submit a merge request
+1. Fork the project's repository.
+2. Create a feature branch using the `git checkout -b new-feature` command.
+3. Add your new feature or fix bugs and run the `git commit -am 'Add a new feature'` command to commit changes.
+4. Push changes using the `git push origin new-feature` command.
+5. Submit a pull request.
 
 ## Author
 
-[Dmitri Popov](https://www.tokyomade.photography/)
+[Dmitri Popov](https://www.tokyoma.de/)
 
 # License
 

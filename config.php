@@ -9,6 +9,8 @@ $lut_dir = "LUTS/";
 $result_dir = "PROCESSED/";
 // Enable automatic level adjustment
 $enable_auto_level = false;
+// Enable RAW processing with darktable
+$darktable = false;
 // Theme
 $theme = "dark";
 // Footer
