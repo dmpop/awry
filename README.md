@@ -17,16 +17,17 @@ Simple PHP-based web application for instant RAW processing and publishing. RAW 
 1. Make sure that your local machine or remote web server has PHP and ExiTool installed.
 2. Clone the project's repository using the `git clone https://github.com/dmpop/raw-cow.git` command. Alternatively, download the latest source code using the appropriate button on the project's page.
 3. Open the _raw-cow/config.php_ file and change example values, if necessary.
-4. Put RAW files into _raw-cow/RAW_ directory.
+4. Put RAW files into the _raw-cow/RAW_ directory.
 5. To run RAW Cow locally, switch in the terminal to the _raw-cow_ directory,  run the `php -S 127.0.0.1:8000` command, and point the browser to the _127.0.0.1:8000_ address.
 
 ## Run RAW Cow in a container
 
 1. Install [Podman](https://podman.io) and [Buildah](https://buildah.io).
 2. Create separate directories for RAW, JPEG, and Hald LUT files on the host machine.
-3. Switch to the _raw-cow_ directory and build an image using the `./buildah.sh` command.
-4. Run a container on port 8000: `podman run -d --rm -p 8000:8000 -v /path/to/RAW:/usr/src/raw-cow/RAW -v /path/to/JPG:/usr/src/raw-cow/JPG -v /path/to/LUT:/usr/src/raw-cow/LUT raw-cow` (replace _/path/to/RAW_ with the actual path to the directory for RAW files, _/path/to/JPG_ with the path to the an empty directory for the converted JPEG files, and _/path/to/LUT_ with the path to the a directory for storing Hald CLUT files).
-5. Point the browser to _http://127.0.0.1:8000_ (replace _127.0.0.1_ with the actual IP address or domain name of the machine running the container).
+3. Modify the available options in the _raw-cow/config.php_ file, if necessary.
+4. Switch to the _raw-cow_ directory and build an image using the `./buildah.sh` command.
+5. Run a container on port 8000: `podman run -d --rm -p 8000:8000 -v /path/to/RAW:/usr/src/raw-cow/RAW -v /path/to/JPG:/usr/src/raw-cow/JPG -v /path/to/LUT:/usr/src/raw-cow/LUT raw-cow` (replace _/path/to/RAW_ with the actual path to the directory for RAW files, _/path/to/JPG_ with the path to the an empty directory for the converted JPEG files, and _/path/to/LUT_ with the path to the a directory for storing Hald CLUT files).
+6. Point the browser to _http://127.0.0.1:8000_ (replace _127.0.0.1_ with the actual IP address or domain name of the machine running the container).
 
 The [Linux Photography](https://gumroad.com/l/linux-photography) book provides detailed information  on installing and using RAW Cow. Get your copy at [Google Play Store](https://play.google.com/store/books/details/Dmitri_Popov_Linux_Photography?id=cO70CwAAQBAJ) or [Gumroad](https://gumroad.com/l/linux-photography).
 

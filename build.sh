@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-container=$(buildah from opensuse/leap)
-buildah run $container zypper update
-buildah run $container zypper -n install php7 php7-exif php7-imagick ImageMagick exiftool darktable
+container=$(buildah from ubuntu)
+buildah run $container apt update
+buildah run $container apt upgrade -y
+buildah run $container apt install -y php php-imagick imagemagick exiftool darktable
 buildah copy $container . /usr/src/raw-cow/
 buildah config --workingdir /usr/src/raw-cow $container
 buildah config --port 8000 $container
