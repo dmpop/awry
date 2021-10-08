@@ -87,6 +87,16 @@ include('config.php');
 			}
 			// --- FUNCTIONS
 
+			if (!file_exists($jpg_dir)) {
+				shell_exec('mkdir -p ' . $jpg_dir);
+			}
+			if (!file_exists($raw_dir)) {
+				shell_exec('mkdir -p ' . $raw_dir);
+			}
+			if (!file_exists($lut_dir)) {
+				shell_exec('mkdir -p ' . $lut_dir);
+			}
+
 			if (!is_dir_empty($jpg_dir)) {
 				echo "<form style='margin-top: .5em;' action='process.php' method='POST'>";
 				echo "<select name='img'>";
@@ -115,10 +125,6 @@ include('config.php');
 			<img src="wtf-cow.jpg" alt="WTF Cow" width="600">
 			<div style="margin-top: 1em;">No RAW files. WTF?</div>
 			</div>';
-			}
-
-			if (!file_exists($jpg_dir)) {
-				shell_exec('mkdir -p ' . $jpg_dir);
 			}
 
 			define('IMAGEPATH', $jpg_dir);
