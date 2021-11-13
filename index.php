@@ -8,7 +8,7 @@ include('config.php');
 
 <head>
 	<meta charset="utf-8">
-	<title>RAW Cow</title>
+	<title>Ribollita</title>
 	<link rel="shortcut icon" href="favicon.png" />
 	<link rel="stylesheet" href="css/classless.css">
 	<link rel="stylesheet" href="css/themes.css">
@@ -61,7 +61,7 @@ include('config.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 	<div class="card">
-		<h1 class="text-center" style="margin-top: 0em;">RAW Cow</h1>
+		<h1 class="text-center" style="margin-top: 0em;">Ribollita</h1>
 		<form class="text-center" style="margin-top: 1em;" method='POST' action=''>
 			<button type="submit" name="refresh">Refresh</button>
 		</form>

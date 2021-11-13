@@ -9,7 +9,7 @@ include('config.php');
 
 <head>
 	<meta charset="utf-8">
-	<title>RAW Cow</title>
+	<title>Ribollita</title>
 	<link rel="shortcut icon" href="favicon.png" />
 	<link rel="stylesheet" href="css/classless.css">
 	<link rel="stylesheet" href="css/themes.css">
@@ -25,7 +25,7 @@ include('config.php');
 
 <body>
 	<div class="card text-center">
-		<h1 style="margin-top: 0em;">RAW Cow</h1>
+		<h1 style="margin-top: 0em;">Ribollita</h1>
 		<hr style="margin-bottom:3em;">
 		<?php
 		if (isset($_POST["process"])) {
