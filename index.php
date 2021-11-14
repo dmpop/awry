@@ -70,7 +70,10 @@ include('config.php');
 	<script src="js/jquery.min.js"></script>
 	<script src="js/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 	<div class="card">
-		<h1 class="text-center" style="margin-top: 0em;">Ribollita</h1>
+	<div style="text-align: center; margin-bottom: 2em; margin-top: 1em;">
+	<img style="display: inline; height: 3em; vertical-align: middle;" src="favicon.png" alt="logo" />
+		<h1 class="text-center" style="display: inline; margin-left: 0.19em; vertical-align: middle; letter-spacing: 3px; margin-top: 0em;">Ribollita</h1>
+	</div>
 		<form class="text-center" style="margin-top: 1em;" method='POST' action=''>
 			<button type="submit" name="refresh">Refresh</button>
 		</form>
