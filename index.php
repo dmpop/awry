@@ -15,44 +15,53 @@ include('config.php');
 	<link href="css/featherlight.min.css" type="text/css" rel="stylesheet" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
-		div.gallery img {
-			width: 100%;
-			height: 9em;
-			object-fit: scale-down;
-		}
+		/* Grid: https://wiki.selfhtml.org/wiki/CSS/Tutorials/Grid/responsive_Raster_ohne_Media_Queries */
 
-		div.desc {
-			padding: 0.1em;
-			text-align: center;
-		}
-
-		* {
+		*,
+		::before,
+		::after {
 			box-sizing: border-box;
 		}
 
-		.responsive {
-			padding: 0 6px;
-			float: left;
-			width: 24.99999%;
+		.square-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+			grid-auto-rows: 1fr;
+			grid-auto-flow: dense;
+			margin-bottom: .5rem;
 		}
 
-		@media only screen and (max-width: 800px) {
-			.responsive {
-				width: 49.99999%;
-				margin: 6px 0;
-			}
+		.square-container::before {
+			content: '';
+			height: 0;
+			padding-bottom: 100%;
+			grid-row: 1 / 1;
+			grid-column: 1 / 1;
 		}
 
-		@media only screen and (max-width: 500px) {
-			.responsive {
-				width: 100%;
-			}
+		.square-container>*:first-child {
+			grid-row: 1 / 1;
+			grid-column: 1 / 1;
 		}
 
-		.clearfix:after {
-			content: "";
-			display: table;
-			clear: both;
+		.square-container>* {
+			background: rgba(0, 0, 0, 0.1);
+			border: .3rem solid transparent;
+			position: relative;
+		}
+
+		.square-container>*:focus,
+		.square-container>*:hover {
+			opacity: .55;
+		}
+
+		.square-container img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
 		}
 	</style>
 </head>
@@ -125,19 +134,17 @@ include('config.php');
 			<img src="wtf-cow.jpg" alt="WTF Cow" width="600">
 			<div style="margin-top: 1em;">No RAW files. WTF?</div>
 			</div>';
+			exit();
 			}
 
 			define('IMAGEPATH', $jpg_dir);
+			echo '<div class="square-container">';
 			foreach (glob(IMAGEPATH . "*.JPG") as $filename) {
-				echo '<div class="responsive">';
-				echo '<div class="gallery">';
 				echo '<a target="_blank" href="' . $filename . '" data-featherlight="image">';
-				echo '<img src="' . $filename . '" alt="' . $filename . '">';
+				echo '<img src="' . $filename . '" alt="' . $filename . '" title= "' . basename($filename) . '">';
 				echo '</a>';
-				echo '<div class="desc">' . basename($filename) . "</div>";
-				echo '</div>';
-				echo '</div>';
 			}
+			echo '</div>';
 
 			if (isset($_POST["refresh"]) || is_dir_empty($jpg_dir)) {
 				shell_exec('rm -rf ' . $jpg_dir);
@@ -154,7 +161,6 @@ include('config.php');
 				echo '<meta http-equiv="refresh" content="0">';
 			}
 			?>
-			<div class="clearfix"></div>
 			<hr>
 			<div class="text-center"><?php echo $footer; ?></div>
 		</div>
